@@ -1,0 +1,255 @@
+login as: bieleckaj
+bieleckaj@213.184.8.36's password:
+Linux bad2 4.10.17-1-pve #1 SMP PVE 4.10.17-16 (Tue, 11 Jul 2017 09:55:44 +0200) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Oct 23 15:31:51 2024 from 213.184.8.152
+bieleckaj@bad2:~$ mysql -u bieleckaj -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 235
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| bieleckaj          |
+| information_schema |
++--------------------+
+2 rows in set (0.06 sec)
+
+mysql> use bieleckaj
+Database changed
+mysql> CREATE TABLE pracownik ( pracownikID int AUTO_INCREMENT, nazwisko varchar(30) NOT NULL, imie varchar(25), nrTelefonu varchar(12), PRIMARY KEY (pracownikID) );
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> SHOW TABLES
+    ->
+    ->
+    ->
+    -> SHOW TABLES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SHOW TABLES' at line 5
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_bieleckaj |
++---------------------+
+| pracownik           |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> DESC pracownik;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| nrTelefonu  | varchar(12) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE stanowisko ( idStanowiska int AUTO_INCREMENT, nazwa varchar(30) NOT NULL, PRIMARY KEY (idStanowiska) );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DESC stanowisko
+    -> DESC stanowisko;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DESC stanowisko' at line 2
+mysql> DESC stanowisko;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| idStanowiska | int         | NO   | PRI | NULL    | auto_increment |
+| nazwa        | varchar(30) | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE pracownik1 ( pracownikID int AUTO_INCREMENT, nazwisko varchar(30) NOT NULL, imie varchar(25), stanowisko int, PRIMARY KEY (pracownikID), FOREIGN KEY (stanowisko) REFERENCES stanowisko(idStanowiska) );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DESC pracownik1;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| stanowisko  | int         | YES  | MUL | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO pracownik1 (nazwisko, imie)
+    -> VALUES ('Nowak', 'Jan');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO pracownik1 VALUES (1, 'Nowak', 'Jan');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> DESC pracownik1;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| stanowisko  | int         | YES  | MUL | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO pracownik1 (nazwisko, imie) VALUES ('Nowak', 'Jan');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO pracownik (nazwisko, imie) VALUES ('Kowalski', 'Jan');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> DESC pracownik1;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| stanowisko  | int         | YES  | MUL | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> DESC pracownik;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| nrTelefonu  | varchar(12) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE pracownik
+    -> SET Nazwisko = 'Kowalski'
+    -> WHERE pracownikID = '1' ;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> DESC pracownik;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| nrTelefonu  | varchar(12) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE pracownik SET Nazwisko = 'Kowalski' WHERE pracownikID = '1';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> UPDATE pracownik;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> UPDATE pracownik;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> INSERT INTO pracownik (nazwisko, imie) VALUES ('Kowalski', 'Jan');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO pracownik VALUES (1, 'Nowak', 'Jan');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SELECT * from pracownik ;
++-------------+----------+------+------------+
+| pracownikID | nazwisko | imie | nrTelefonu |
++-------------+----------+------+------------+
+|           1 | Kowalski | Jan  | NULL       |
+|           2 | Kowalski | Jan  | NULL       |
++-------------+----------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO pracownik VALUES (3, 'Nowak', 'Jan');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO pracownik VALUES (3, 'Nowak', 'Jan', '123456789');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * from pracownik;
++-------------+----------+------+------------+
+| pracownikID | nazwisko | imie | nrTelefonu |
++-------------+----------+------+------------+
+|           1 | Kowalski | Jan  | NULL       |
+|           2 | Kowalski | Jan  | NULL       |
+|           3 | Nowak    | Jan  | 123456789  |
++-------------+----------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE pracownik
+    -> SET Nazwisko = 'Kowalski'
+    -> WHERE pracownikID = 1;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> DESC pracownik;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| nrTelefonu  | varchar(12) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> DESC pracownik1;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| pracownikID | int         | NO   | PRI | NULL    | auto_increment |
+| nazwisko    | varchar(30) | NO   |     | NULL    |                |
+| imie        | varchar(25) | YES  |     | NULL    |                |
+| stanowisko  | int         | YES  | MUL | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER TABLE pracownik
+    -> ADD stanowisko VARCHAR(30);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DELETE FROM pracowniK
+    -> WHERE ID=3;
+ERROR 1146 (42S02): Table 'bieleckaj.pracowniK' doesn't exist
+mysql> DELETE FROM pracownik WHERE ID=3;
+ERROR 1054 (42S22): Unknown column 'ID' in 'where clause'
+mysql> DELETE FROM pracownik
+    -> WHERE id=3;
+ERROR 1054 (42S22): Unknown column 'id' in 'where clause'
+mysql> DELETE FROM pracownik
+    -> WHERE ID=3
+    ->
+    -> WHERE ID=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE ID=3' at line 4
+mysql> DELETE FROM pracownik
+    -> WHERE ID=2;
+ERROR 1054 (42S22): Unknown column 'ID' in 'where clause'
+mysql> xd
+    -> xd
+    -> xdxd
+    -> xd
+    -> DROP TABLE pracownik;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'xd
+xd
+xdxd
+xd
+DROP TABLE pracownik' at line 1
+mysql> DROP TABLE pracownik;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
